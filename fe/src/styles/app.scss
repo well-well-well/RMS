@@ -1,0 +1,15 @@
+#user-menu {
+    .dropdown-toggle {
+        padding: 0;
+
+        img {
+            float: none;
+        }
+
+        span {
+            display: inline-block;
+            line-height: 50px;
+            padding: 0 7.5px;
+        }
+    }
+}
