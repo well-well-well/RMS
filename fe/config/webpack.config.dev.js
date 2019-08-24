@@ -17,7 +17,7 @@ module.exports = {
 
   // 做webpack-dev-server的配置
   devServer: {
-    contentBase: path.resolve(__dirname, '../dev'),
+    contentBase: './dev', // 可以写相对路径
     port: 8000,
     proxy: {
       "/api": {

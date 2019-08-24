@@ -1,5 +1,4 @@
 const userModel = require('../models/users')
-
 const tools = require('../utils/tools')
 
 module.exports = {
@@ -40,6 +39,7 @@ module.exports = {
 
     async signin(req, res, next) {
         res.set('content-type', 'application/json;charset=utf-8')
+
         let {
             username,
             password
@@ -47,8 +47,14 @@ module.exports = {
 
         // 从数据库里根据用户名取出用户信息
         let result = await userModel.findOne(username)
+
         if (result) {
             if (await tools.compare(password, result.password)) {
+                // 种cookie
+                // res.cookie('name', 'tobi')
+
+                req.session.username = username
+
                 res.render('succ', {
                     data: JSON.stringify({
                         msg: '用户登录成功~',
@@ -69,5 +75,45 @@ module.exports = {
                 })
             })
         }
+    },
+
+    async isSignin(req, res, next) {
+        // res.set('content-type', 'application/json;charset=utf-8') // 有ajax的datatype它就没啥用了
+
+        let username = req.session.username
+        if (username) {
+            // 中间件栈
+            // if (req.url === '/list') next()
+            // else if (req.url === '/isSignin') {
+            //     res.render('succ', {
+            //         data: JSON.stringify({
+            //             msg: '用户有权限',
+            //             username
+            //         })
+            //     })
+            // }
+
+            res.render('succ', {
+                data: JSON.stringify({
+                    msg: '用户有权限',
+                    username
+                })
+            })
+        } else {
+            res.render('fail', {
+                data: JSON.stringify({
+                    msg: '用户没有权限'
+                })
+            })
+        }
+    },
+
+    async signout(req, res, next) {
+        req.session = null
+        res.render('succ', {
+            data: JSON.stringify({
+                msg: '用户登出成功.'
+            })
+        })
     }
 }

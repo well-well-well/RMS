@@ -68,7 +68,7 @@
         </div>
         {{/if}}
         {{if isSignin}}
-        <div class="pull-right" id="btn-signout">
+        <div class="pull-right hidden-xs" id="btn-signout">
             <a href="#" class="btn btn-default btn-flat">退出</a>
         </div>
         {{/if}}
