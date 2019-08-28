@@ -1,33 +1,41 @@
 const userModel = require('../models/users')
-const tools = require('../utils/tools')
+const toolsUtil = require('../utils/tools')
 
 module.exports = {
     async signup(req, res, next) {
         res.set('content-type', 'application/json;charset=utf-8')
 
-        let {
+        const {
             username,
             password
         } = req.body
 
         // 判断用户是否存在
-        let result = await userModel.findOne(username)
-        if (!result) {
+        const result_find = await userModel.findOne(username)
+        if (!result_find) {
             // 密码加密
-            let newPassword = await tools.crypt(password)
+            const newPassword = await toolsUtil.hash(password)
 
             //保存数据到数据库
-            await userModel.save({
+            const result_save = await userModel.save({
                 username,
                 password: newPassword
             })
 
             // 给前端返回接口
-            res.render('succ', {
-                data: JSON.stringify({
-                    msg: '用户注册成功~'
+            if (result_save) {
+                res.render('succ', {
+                    data: JSON.stringify({
+                        msg: '用户注册成功~'
+                    })
                 })
-            })
+            } else {
+                res.render('fail', {
+                    data: JSON.stringify({
+                        msg: '用户注册失败~'
+                    })
+                })
+            }
         }
 
         res.render('fail', {
@@ -40,7 +48,7 @@ module.exports = {
     async signin(req, res, next) {
         res.set('content-type', 'application/json;charset=utf-8')
 
-        let {
+        const {
             username,
             password
         } = req.body
@@ -49,7 +57,7 @@ module.exports = {
         let result = await userModel.findOne(username)
 
         if (result) {
-            if (await tools.compare(password, result.password)) {
+            if (await toolsUtil.compare(password, result.password)) {
                 // 种cookie
                 // res.cookie('name', 'tobi')
 
@@ -71,7 +79,7 @@ module.exports = {
         } else {
             res.render('fail', {
                 data: JSON.stringify({
-                    msg: '账号或密码错误~'
+                    msg: '用户名不存在~'
                 })
             })
         }

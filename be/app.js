@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser')
 const logger = require('morgan');
 const cookieSession = require('cookie-session') // 把cookie-session作为中间件载入进来
 
-const indexRouter = require('./routes/index')
+// const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
 const positionRouter = require('./routes/position')
 
@@ -27,7 +27,8 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/', indexRouter)
+// 挂载路由，暴露接口
+// app.use('/', indexRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/position', positionRouter)
 

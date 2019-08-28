@@ -1,19 +1,13 @@
 const bcrypt = require('bcrypt')
 
 module.exports = {
-    crypt(myPlaintextPassword) {
-        return new Promise(resolve => {
-            bcrypt.genSalt(10, function (err, salt) {
-                bcrypt.hash(myPlaintextPassword, salt, (err, hash) => resolve(hash))
-            })
-        })
+    hash(password) {
+        const salt = bcrypt.genSaltSync(10)
+        const hash = bcrypt.hashSync(password, salt)
+        return hash
     },
 
-    compare(myPlaintextPassword, hash) {
-        return new Promise((resolve, reject) => {
-            bcrypt.compare(myPlaintextPassword, hash, function (err, res) {
-                resolve(res)
-            })
-        })
+    compare(originalPassword, hash) {
+        return bcrypt.compare(originalPassword, hash)
     }
 }

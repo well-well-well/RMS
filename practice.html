@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>在字符串中找出第一个只出现一次的字符</title>
+</head>
+
+<body>
+    <script>
+        const str = 'abcd13faeb'
+        let arr = []
+        let num = 0
+        for (var str_index in str) {
+            // console.log(str_index) // 0 1 2 3 4 5 6 7 8 9 10
+            // console.log(str[str_index]) // a b c d 1 3 f a e b
+            var _flag = true
+            for (var arr_index in arr) {
+                // console.log(arr_index) // 0 1 2 3 4 5 6
+                for (var attr in arr[arr_index]) {
+                    if (str[str_index] == attr) {
+                        arr[arr_index][attr] = false
+                        _flag = false
+                    }
+                }
+            }
+            if (_flag) {
+                // var key = str[str_index] // key值不能直接写，可以先定义一个变量
+                arr[num++] = {
+                    // [str[str_index]]: true // 这是啥球写法？？？难道是如果想在对象的key上传入变量，就要加 [] ？？？
+                    // [key]: true
+                }
+            }
+        }
+        // console.log(arr) // [{a: false}, {b: false}, {c: true}, {d: true}]
+
+        x_1: for (var arr_index in arr) {
+            // console.log(arr_index)
+            for (var attr in arr[arr_index]) {
+                if (arr[arr_index][attr]) {
+                    console.log(attr) // c
+                    break x_1;
+                    // return // Uncaught SyntaxError: Illegal return statement
+                    // return false // Uncaught SyntaxError: Illegal return statement
+                }
+            }
+        }
+
+        // 测试一下 for in 里的break为啥跳不出全部循环
+        // var arr1 = [1, 2, 3, 2]
+        // var arr2 = [4, 5, 6]
+        // for (var arr1_index in arr1) {
+        //     for (var arr2_index in arr2) {
+        //         if (arr1[arr1_index] == 2) {
+        //             console.log(arr2[arr2_index])
+        //             continue
+        //         }
+        //     }
+        // }
+        // continue应该是只能结束当次循环，当次循环下continue后的所有代码将不能执行，break是跳出当前的for循环，但也只能跳出一层for循环，如果想跳出多层可以在目标跳出for循环前写x_1:，然后break x_1即可。
+
+        // 第二种方法 判断如果有重复值就在新函数上把此值变为bool值，最后打印第一个string值或是不是bool类型的值
+        // for (var str_index in str) {
+        //     for (var arr_index in arr) {
+        //         if (arr[arr_index] == str[str_index]) {}
+        //     }
+        // }
+    </script>
+</body>
+
+</html>

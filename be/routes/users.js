@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
 
-const Users = require('../controllers/users')
+const userController = require('../controllers/users')
 
-router.post('/signup', Users.signup)
-router.post('/signin', Users.signin)
-router.get('/isSignin', Users.isSignin)
-router.get('/signout', Users.signout)
+router.post('/signup', userController.signup)
+router.post('/signin', userController.signin)
+router.get('/isSignin', userController.isSignin)
+router.get('/signout', userController.signout)
 
 module.exports = router
